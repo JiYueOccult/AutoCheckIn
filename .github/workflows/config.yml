@@ -1,1 +1,37 @@
+name: AutoCheckIn
 
+on:
+  schedule:
+    - cron: '0 17 * * *'  # 每天北京时间 1:00 (UTC+8，所以 UTC 时间是 17:00)
+  workflow_dispatch:  # 保留手动触发功能
+
+jobs:
+  check-in:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+    - name: Run Vikacg.py
+      run: python Vikacg.py
+      
+    - name: Upload logs (if any)
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: vikacg-logs
+        path: |
+          *.log
+          logs/
+        retention-days: 7
