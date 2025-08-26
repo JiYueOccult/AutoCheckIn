@@ -46,36 +46,43 @@ class VikacgChecker:
             response = requests.post(URL, headers=headers, timeout=30)
             
             if response.status_code != 200:
-                logger.error(f"请求失败，状态码: {response.status_code}, 响应: {response.text}")
+                # logger.error(f"请求失败，状态码: {response.status_code}, 响应: {response.text}")
+                logger.error(f"请求失败，状态码: {response.status_code}")
                 return False
             
             try:
                 data = response.json()
-                logger.info(f"API 响应数据: {data}")
+                # logger.info(f"API 响应数据: {data}")
+                logger.info("API 请求成功，正在处理响应数据")
                 
                 if isinstance(data, dict):
                     credit = data.get("credit", 0)
                     mission = data.get("mission", {})
                     my_credit = mission.get("my_credit", "未知")
                     
-                    logger.info(f"签到成功！获得积分 {credit} 分，目前总积分 {my_credit} 分")
+                    # logger.info(f"签到成功！获得积分 {credit} 分，目前总积分 {my_credit} 分")
+                    logger.info("签到成功！已获得今日积分")
                     return True
                     
                 elif isinstance(data, str):
-                    logger.info(f"今日已经签到过，获得积分 {data} 分")
+                    # logger.info(f"今日已经签到过，获得积分 {data} 分")
+                    logger.info("今日已经签到过")
                     return True
                     
                 else:
-                    logger.error(f"未知的响应格式：{type(data)}, 内容：{data}")
+                    # logger.error(f"未知的响应格式：{type(data)}, 内容：{data}")
+                    logger.error(f"未知的响应格式：{type(data)}")
                     return False
                 
             except json.JSONDecodeError as e:
-                response_text = response.text.strip('"')
-                logger.error(f"JSON 解析失败：{e}, 原始响应：{response_text}")
+                # response_text = response.text.strip('"')
+                # logger.error(f"JSON 解析失败：{e}, 原始响应：{response_text}")
+                logger.error(f"JSON 解析失败：{e}")
                 return False
                 
             except Exception as e:
-                logger.error(f"处理响应数据时发生异常：{e}, 响应内容：{response.text}")
+                # logger.error(f"处理响应数据时发生异常：{e}, 响应内容：{response.text}")
+                logger.error(f"处理响应数据时发生异常：{e}")
                 return False
                     
         except requests.exceptions.RequestException as e:

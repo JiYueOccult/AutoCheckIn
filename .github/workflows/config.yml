@@ -2,8 +2,8 @@ name: AutoCheckIn
 
 on:
   schedule:
-    - cron: '0 17 * * *'  # 每天北京时间 1:00 (UTC+8，所以 UTC 时间是 17:00)
-  workflow_dispatch:  # 保留手动触发功能
+    - cron: '0 17 * * *'  # 每天北京时间 1:00
+  workflow_dispatch:
 
 jobs:
   check-in:
@@ -26,12 +26,12 @@ jobs:
     - name: Run Vikacg.py
       run: python Vikacg.py
       
-    - name: Upload logs (if any)
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: vikacg-logs
-        path: |
-          *.log
-          logs/
-        retention-days: 7
+    # - name: Upload logs (if any)
+    #   uses: actions/upload-artifact@v3
+    #   if: always()
+    #   with:
+    #     name: vikacg-logs
+    #     path: |
+    #       *.log
+    #       logs/
+    #     retention-days: 7
