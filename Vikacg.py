@@ -46,8 +46,8 @@ class VikacgChecker:
             response = requests.post(URL, headers=headers, timeout=30)
             
             if response.status_code != 200:
-                # logger.error(f"请求失败，状态码: {response.status_code}, 响应: {response.text}")
-                logger.error(f"请求失败，状态码: {response.status_code}")
+                logger.error(f"请求失败，状态码: {response.status_code}, 响应: {response.text}")
+                # logger.error(f"请求失败，状态码: {response.status_code}")
                 return False
             
             try:
