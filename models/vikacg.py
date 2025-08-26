@@ -1,5 +1,5 @@
 import json
-from function import *
+from .util import *
 
 logger = setup_logger("Vikacg", "vikacg_checkin.log")
 

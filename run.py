@@ -1,36 +1,20 @@
 import os
 import json
 import logging
-from function import setup_logger, load_config_from_env
+from models.util import setup_logger, load_config_from_env
+from models import get_task_module, get_available_tasks
 
 logger = setup_logger("AutoCheckIn", "auto_checkin.log")
-
-TASK_MODULES = {
-    "vikacg": "vikacg",
-    # 可以继续添加其他网站
-    # "example": "example_module",
-}
-
-def import_task_module(task_name: str):
-    if task_name not in TASK_MODULES:
-        logger.error(f"不支持的任务类型: {task_name}")
-        return None
-    
-    module_name = TASK_MODULES[task_name]
-    try:
-        module = __import__(module_name)
-        return module
-    except ImportError as e:
-        logger.error(f"导入模块失败 {module_name}: {e}")
-        return None
 
 def execute_task(task_name: str, task_config: dict) -> bool:
     """执行指定的签到任务"""
     logger.info(f"开始执行任务: {task_name}")
     
-    # 导入对应的模块
-    module = import_task_module(task_name)
+    # 获取对应的任务模块
+    module = get_task_module(task_name)
     if not module:
+        logger.error(f"不支持的任务类型: {task_name}")
+        logger.info(f"支持的任务类型: {', '.join(get_available_tasks())}")
         return False
     
     try:
@@ -45,6 +29,7 @@ def main():
     """主函数"""
     logger.info("=" * 50)
     logger.info("自动签到程序启动")
+    logger.info(f"支持的任务: {', '.join(get_available_tasks())}")
     
     config = load_config_from_env("CONFIG")
     if not config:
