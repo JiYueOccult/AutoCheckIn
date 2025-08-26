@@ -31,11 +31,10 @@ jobs:
         echo "IP info:"
         curl -s ipinfo.io
         
-    - name: Run Vikacg.py
-      run: python Vikacg.py
+    - name: Run Auto CheckIn
+      run: python run.py
       env:
-        AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
-        COOKIE: ${{ secrets.COOKIE }}
+        CONFIG: ${{ secrets.CONFIG }}
       
     # - name: Upload logs (if any)
     #   uses: actions/upload-artifact@v3
