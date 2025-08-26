@@ -1,6 +1,6 @@
 import os
 import json
-import requests
+import cloudscraper
 import logging
 
 logging.basicConfig(
@@ -20,6 +20,7 @@ class VikacgChecker:
     def __init__(self):
         self.authorizations = os.getenv("AUTHORIZATION", "")
         self.cookies = os.getenv("COOKIE", "")
+        self.scraper = cloudscraper.create_scraper()  # 用于通过Cloudflare
         
     def validate_config(self) -> bool:
         if not self.authorizations or not self.cookies:
@@ -43,7 +44,7 @@ class VikacgChecker:
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
             }
             
-            response = requests.post(URL, headers=headers, timeout=30)
+            response = self.scraper.post(URL, headers=headers, timeout=30)
             
             if response.status_code != 200:
                 logger.error(f"请求失败，状态码: {response.status_code}, 响应: {response.text}")
