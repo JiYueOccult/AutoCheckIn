@@ -2,12 +2,12 @@
 
 from . import vikacg
 from . import example
-from . import agcjc
+from . import acgjc
 
 TASK_MODULES = {
     "vikacg": vikacg,
     "example": example,
-    "agcjc": agcjc,
+    "acgjc": acgjc,
     # 添加新任务时，在这里注册
 }
 
