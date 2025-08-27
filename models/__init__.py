@@ -1,13 +1,15 @@
 # Models package
 
-from . import vikacg
 from . import example
+from . import vikacg
 from . import acgjc
+from . import hifiti
 
 TASK_MODULES = {
-    "vikacg": vikacg,
     "example": example,
+    "vikacg": vikacg,
     "acgjc": acgjc,
+    "hifiti": hifiti,
     # 添加新任务时，在这里注册
 }
 
