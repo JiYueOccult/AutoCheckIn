@@ -1,16 +1,16 @@
 import json
 from .util import *
 
-logger = setup_logger("Vikacg", "vikacg_checkin.log")
+logger = setup_logger("Acgjc", "acgjc_checkin.log")
 
-URL = "https://www.vikacg.com/api/b2/v1/userMission"
+URL = "https://www.acgjc.com/wp-json/b2/v1/userMission"
 
-def check_vikacg_user(authorization: str, cookie: str) -> bool:
+def check_acgjc_user(authorization: str, cookie: str) -> bool:
     session = create_session()
     
     headers = get_standard_headers(
-        referer="https://www.vikacg.com/",
-        origin="https://www.vikacg.com"
+        referer="https://www.acgjc.com/task",
+        origin="https://www.acgjc.com"
     )
     headers["authorization"] = authorization
     headers["cookie"] = cookie
@@ -34,17 +34,17 @@ def check_vikacg_user(authorization: str, cookie: str) -> bool:
         return False
 
 def main(config: dict) -> bool:
-    logger.info("开始执行 Vikacg 自动签到")
-    
+    logger.info("开始执行 Acgjc 自动签到")
+
     required_fields = ["authorization", "cookie"]
     if not validate_required_fields(config, required_fields):
         return False
     
     authorization = config["authorization"]
     cookie = config["cookie"]
-    
-    success = check_vikacg_user(authorization, cookie)
-    
+
+    success = check_acgjc_user(authorization, cookie)
+
     return success
 
 if __name__ == "__main__":

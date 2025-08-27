@@ -7,16 +7,12 @@ from models import get_task_module, get_available_tasks
 logger = setup_logger("AutoCheckIn", "auto_checkin.log")
 
 def execute_task(task_name: str, task_config: dict) -> bool:
-    """执行指定的签到任务"""
     logger.info(f"开始执行任务: {task_name}")
     
-    # 获取对应的任务模块
     module = get_task_module(task_name)
     if not module:
         logger.error(f"不支持的任务类型: {task_name}")
-        logger.info(f"支持的任务类型: {', '.join(get_available_tasks())}")
         return False
-    
     try:
         result = module.main(task_config)
         logger.info(f"任务 {task_name} 执行{'成功' if result else '失败'}")
@@ -26,7 +22,6 @@ def execute_task(task_name: str, task_config: dict) -> bool:
         return False
 
 def main():
-    """主函数"""
     logger.info("=" * 50)
     logger.info("自动签到程序启动")
     logger.info(f"支持的任务: {', '.join(get_available_tasks())}")

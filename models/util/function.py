@@ -41,22 +41,6 @@ def get_standard_headers(referer: str = "", origin: str = "") -> Dict[str, str]:
         
     return headers
 
-def make_request(session: cloudscraper.CloudScraper, method: str, url: str, 
-                headers: Dict[str, str], data: Optional[Dict] = None, 
-                timeout: int = 30) -> Optional[Any]:
-    try:
-        if method.upper() == "GET":
-            response = session.get(url, headers=headers, timeout=timeout)
-        elif method.upper() == "POST":
-            response = session.post(url, headers=headers, data=data, timeout=timeout)
-        else:
-            raise ValueError(f"不支持的HTTP方法: {method}")
-        
-        return response
-    except Exception as e:
-        logging.error(f"请求失败: {e}")
-        return None
-
 def load_config_from_env(env_var: str = "CONFIG") -> Optional[Dict]:
     config_str = os.getenv(env_var, "")
     if not config_str:
