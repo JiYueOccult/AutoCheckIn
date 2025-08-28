@@ -1,2 +1,2 @@
-requests>=2.25.1
-cloudscraper
+cloudscraper>=1.2.71
+httpx>=0.25.0
