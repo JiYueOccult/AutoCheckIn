@@ -3,12 +3,16 @@
 from . import vikacg
 from . import acgjc
 from . import hifiti
+from . import tsdm
+
 from . import tsdmtask
 
 TASK_MODULES = {
     "vikacg": vikacg,
     "acgjc": acgjc,
     "hifiti": hifiti,
+    "tsdm": tsdm,
+    
     "tsdmtask": tsdmtask,
     # 添加新任务时，在这里注册
 }
