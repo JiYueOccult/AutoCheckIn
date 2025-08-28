@@ -1,13 +1,10 @@
-import os
-import json
-import logging
 from models.util import setup_logger, load_config_from_env
 from models import get_task_module, get_available_tasks
 
 logger = setup_logger("AutoCheckIn", "auto_checkin.log")
 
 def execute_task(task_name: str, task_config: dict) -> bool:
-    logger.info(f"开始执行任务: {task_name}")
+    logger.info(f"开始执行签到任务: {task_name}")
     
     module = get_task_module(task_name)
     if not module:
@@ -15,10 +12,10 @@ def execute_task(task_name: str, task_config: dict) -> bool:
         return False
     try:
         result = module.main(task_config)
-        logger.info(f"任务 {task_name} 执行{'成功' if result else '失败'}")
+        logger.info(f"签到任务 {task_name} 执行{'成功' if result else '失败'}")
         return result
     except Exception as e:
-        logger.error(f"执行任务 {task_name} 时发生异常: {e}")
+        logger.error(f"执行签到任务 {task_name} 时发生异常: {e}")
         return False
 
 def main():
@@ -26,12 +23,12 @@ def main():
     logger.info("自动签到程序启动")
     logger.info(f"支持的任务: {', '.join(get_available_tasks())}")
     
-    config = load_config_from_env("CONFIG")
+    config = load_config_from_env("CONFIG_CHECKIN")
     if not config:
-        logger.error("无法加载配置，程序退出")
+        logger.error("无法加载签到配置，程序退出")
         return
     
-    logger.info(f"成功加载配置，包含 {len(config)} 个任务")
+    logger.info(f"成功加载签到配置，包含 {len(config)} 个任务")
     
     total_tasks = 0
     success_tasks = 0
@@ -54,7 +51,7 @@ def main():
         
         logger.info("-" * 30)
     
-    logger.info(f"所有任务执行完成！成功 {success_tasks}/{total_tasks} 个任务")
+    logger.info(f"所有签到任务执行完成！成功 {success_tasks}/{total_tasks} 个任务")
     logger.info("=" * 50)
 
 if __name__ == "__main__":

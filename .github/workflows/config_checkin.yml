@@ -1,4 +1,4 @@
-name: AutoCheckIn
+name: Daily CheckIn
 
 on:
   schedule:
@@ -31,17 +31,7 @@ jobs:
         echo "IP info:"
         curl -s ipinfo.io
         
-    - name: Run Auto CheckIn
-      run: python run.py
+    - name: Run Daily CheckIn
+      run: python RunCheckIn.py
       env:
-        CONFIG: ${{ secrets.CONFIG }}
-      
-    # - name: Upload logs (if any)
-    #   uses: actions/upload-artifact@v3
-    #   if: always()
-    #   with:
-    #     name: vikacg-logs
-    #     path: |
-    #       *.log
-    #       logs/
-    #     retention-days: 7
+        CONFIG_CHECKIN: ${{ secrets.CONFIG_CHECKIN }}

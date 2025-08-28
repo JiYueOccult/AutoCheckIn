@@ -1,17 +1,16 @@
-import json
 from .util import *
+import cloudscraper
 
 logger = setup_logger("Hifiti", "hifiti_checkin.log")
 
 URL = "https://www.hifiti.com/sg_sign.htm"
 
 def check_hifiti_user(cookie: str) -> bool:
-    session = create_session()
+    session = cloudscraper.create_scraper()
     
-    headers = get_standard_headers(
-        referer="https://www.hifiti.com/",
-        origin="https://www.hifiti.com"
-    )
+    headers = get_standard_headers()
+    headers["referer"] = "https://www.hifiti.com/"
+    headers["origin"] = "https://www.hifiti.com"
     headers["cookie"] = cookie
     
     try:
@@ -24,7 +23,6 @@ def check_hifiti_user(cookie: str) -> bool:
         logger.error(f"请求失败，状态码: {response.status_code}")
         return False
     
-    # print(f"状态码: {response.status_code}\n响应头: {dict(response.headers)}\n响应内容: {response.text}")
     response_text = response.text
     
     if "已经签过" in response_text:

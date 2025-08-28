@@ -1,8 +1,7 @@
 import os
 import json
-import cloudscraper
 import logging
-from typing import Dict, Any, Optional
+from typing import Dict, Optional
 
 def setup_logger(name: str = "AutoCheckIn", log_file: str = "checkin.log") -> logging.Logger:
     logging.basicConfig(
@@ -15,17 +14,12 @@ def setup_logger(name: str = "AutoCheckIn", log_file: str = "checkin.log") -> lo
     )
     return logging.getLogger(name)
 
-def create_session() -> cloudscraper.CloudScraper:
-    return cloudscraper.create_scraper()
-
-def get_standard_headers(referer: str = "", origin: str = "") -> Dict[str, str]:
+def get_standard_headers() -> Dict[str, str]:
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
         "Accept": "application/json, text/plain, */*",
         "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
         "Accept-Encoding": "gzip, deflate, br",
-        "DNT": "1",
-        "Connection": "keep-alive",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
@@ -33,12 +27,6 @@ def get_standard_headers(referer: str = "", origin: str = "") -> Dict[str, str]:
         "Sec-Ch-Ua-Mobile": "?0",
         "Sec-Ch-Ua-Platform": '"Windows"'
     }
-    
-    if referer:
-        headers["Referer"] = referer
-    if origin:
-        headers["Origin"] = origin
-        
     return headers
 
 def load_config_from_env(env_var: str = "CONFIG") -> Optional[Dict]:

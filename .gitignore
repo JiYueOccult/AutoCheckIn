@@ -208,4 +208,5 @@ __marimo__/
 
 test/
 myconfig.json
+myconfig_task.json
 .gitignore

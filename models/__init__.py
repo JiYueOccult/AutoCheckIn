@@ -1,15 +1,15 @@
 # Models package
 
-from . import example
 from . import vikacg
 from . import acgjc
 from . import hifiti
+from . import tsdmtask
 
 TASK_MODULES = {
-    "example": example,
     "vikacg": vikacg,
     "acgjc": acgjc,
     "hifiti": hifiti,
+    "tsdmtask": tsdmtask,
     # 添加新任务时，在这里注册
 }
 

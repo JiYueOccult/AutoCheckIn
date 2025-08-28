@@ -1,17 +1,16 @@
-import json
 from .util import *
+import cloudscraper
 
 logger = setup_logger("Vikacg", "vikacg_checkin.log")
 
 URL = "https://www.vikacg.com/api/b2/v1/userMission"
 
 def check_vikacg_user(authorization: str, cookie: str) -> bool:
-    session = create_session()
+    session = cloudscraper.create_scraper()
     
-    headers = get_standard_headers(
-        referer="https://www.vikacg.com/",
-        origin="https://www.vikacg.com"
-    )
+    headers = get_standard_headers()
+    headers["referer"] = "https://www.vikacg.com/"
+    headers["origin"] = "https://www.vikacg.com"
     headers["authorization"] = authorization
     headers["cookie"] = cookie
     
@@ -21,17 +20,15 @@ def check_vikacg_user(authorization: str, cookie: str) -> bool:
         logger.error(f"请求失败: {e}")
         return False
     
-    data = response.json()
-    
-    if isinstance(data, dict):
-        logger.info("签到成功！已获得今日积分")
-        return True
-    elif isinstance(data, str):
+    text = response.text.strip()
+    if text.startswith('"') and text.endswith('"'):
+        text = text[1:-1]
+    if text.isdigit():
         logger.info("今日已经签到过")
         return True
     else:
-        logger.error(f"未知的响应格式：{type(data)}")
-        return False
+        logger.info("签到成功！已获得今日积分")
+        return True
 
 def main(config: dict) -> bool:
     logger.info("开始执行 Vikacg 自动签到")
@@ -50,6 +47,6 @@ def main(config: dict) -> bool:
 if __name__ == "__main__":
     authorization = "<your_authorization_token_here>"
     cookie = "<your_cookie_here>"
-    
+
     config = {"authorization": authorization, "cookie": cookie}
     main(config)
