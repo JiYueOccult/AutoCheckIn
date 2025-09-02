@@ -1,0 +1,37 @@
+name: Website Tasks
+
+on:
+  schedule:
+    - cron: '0 */8 * * *'  # 每8小时执行一次 (UTC时间)
+  workflow_dispatch:
+
+jobs:
+  website-tasks:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Show public IP
+      run: |
+        echo "Public IP:"
+        curl -s ifconfig.me
+        echo
+        echo "IP info:"
+        curl -s ipinfo.io
+        
+    - name: Run Website Tasks
+      run: python RunTask.py
+      env:
+        CONFIG_TASK: ${{ secrets.CONFIG_TASK }}
